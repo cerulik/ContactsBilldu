@@ -1,13 +1,12 @@
 package com.example.contactsbilldu.ui.home
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.outlined.Favorite
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,25 +16,41 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import com.example.contactsbilldu.ui.home.contacts.ContactsScreen
+import com.example.contactsbilldu.ui.home.contacts.ContactsViewModel
+import com.example.contactsbilldu.ui.home.favorites.FavoritesScreen
+import com.example.contactsbilldu.ui.home.favorites.FavoritesViewModel
+import org.koin.androidx.compose.getViewModel
+
+enum class BottomNavScreen {
+    Contacts,
+    Favorites
+}
 
 @Composable
 fun HomeScreen(
     onContactSelected: (contactId: Int) -> Unit,
     onAddContactClick: () -> Unit
 ) {
-    val navController = rememberNavController()
+    var bottomNavScreen by rememberSaveable {
+        mutableStateOf(BottomNavScreen.Contacts)
+    }
 
     Column {
         Scaffold(
             bottomBar = {
-                BottomNavigationBar(navController)
+                BottomNavigationBar(
+                    bottomNavScreen = bottomNavScreen,
+                    onTabClick = {
+                        bottomNavScreen = it
+                    }
+                )
             },
             floatingActionButton = {
                 val fabBackgroundColor = MaterialTheme.colorScheme.primary
@@ -49,16 +64,30 @@ fun HomeScreen(
                 }
             }
         ) { innerPadding ->
-            NavHost(
-                navController,
-                startDestination = "contacts",
-                modifier = Modifier.padding(innerPadding)
-            ) {
-                composable("contacts") {
-                    ContactsScreen(onContactClick = onContactSelected)
-                }
-                composable("favorites") {
-                    FavoritesScreen(onContactClick = onContactSelected)
+            Box(modifier = Modifier.padding(innerPadding)) {
+                when (bottomNavScreen) {
+                    BottomNavScreen.Contacts -> {
+                        val contactsViewModel = getViewModel<ContactsViewModel>()
+                        val contactsUiState = contactsViewModel.uiState.collectAsState()
+
+                        ContactsScreen(
+                            contactsUiState = contactsUiState.value,
+                            onContactClick = onContactSelected,
+                            onEvent = {
+                                contactsViewModel.onEvent(it)
+                            }
+                        )
+                    }
+
+                    BottomNavScreen.Favorites -> {
+                        val favoritesViewModel = getViewModel<FavoritesViewModel>()
+                        val favoritesUiState = favoritesViewModel.uiState.collectAsState()
+
+                        FavoritesScreen(
+                            favoritesUiState = favoritesUiState.value,
+                            onContactClick = onContactSelected
+                        )
+                    }
                 }
             }
         }
@@ -66,10 +95,10 @@ fun HomeScreen(
 }
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
-
+fun BottomNavigationBar(
+    bottomNavScreen: BottomNavScreen,
+    onTabClick: (BottomNavScreen) -> Unit
+) {
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary
@@ -82,8 +111,8 @@ fun BottomNavigationBar(navController: NavHostController) {
                 )
             },
             label = { Text("Contacts") },
-            selected = currentRoute == "contacts",
-            onClick = { navController.navigate("contacts") },
+            selected = bottomNavScreen == BottomNavScreen.Contacts,
+            onClick = { onTabClick(BottomNavScreen.Contacts) },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.onPrimary,
                 selectedTextColor = MaterialTheme.colorScheme.onPrimary,
@@ -99,8 +128,8 @@ fun BottomNavigationBar(navController: NavHostController) {
                 )
             },
             label = { Text("Favorites") },
-            selected = currentRoute == "favorites",
-            onClick = { navController.navigate("favorites") },
+            selected = bottomNavScreen == BottomNavScreen.Favorites,
+            onClick = { onTabClick(BottomNavScreen.Favorites) },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.onPrimary,
                 selectedTextColor = MaterialTheme.colorScheme.onPrimary,

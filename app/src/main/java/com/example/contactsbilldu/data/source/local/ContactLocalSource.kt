@@ -4,7 +4,7 @@ import com.example.contactsbilldu.data.source.local.dao.ContactDao
 import com.example.contactsbilldu.data.source.local.entity.Contact
 import kotlinx.coroutines.flow.Flow
 
-class ContactLocalSource constructor(
+class ContactLocalSource(
     private val contactDao: ContactDao
 ) {
     fun getContacts(): Flow<List<Contact>> {
@@ -19,7 +19,11 @@ class ContactLocalSource constructor(
         contactDao.insert(contact)
     }
 
-    suspend fun deleteContact(contact: Contact) {
-        contactDao.delete(contact)
+    suspend fun updateContact(contact: Contact) {
+        contactDao.update(contact)
+    }
+
+    suspend fun deleteContactById(contactId: Int) {
+        contactDao.deleteById(contactId)
     }
 }

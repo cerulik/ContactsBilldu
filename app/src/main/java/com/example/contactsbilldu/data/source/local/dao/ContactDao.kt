@@ -1,10 +1,10 @@
 package com.example.contactsbilldu.data.source.local.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import com.example.contactsbilldu.data.source.local.entity.Contact
 import kotlinx.coroutines.flow.Flow
 
@@ -19,6 +19,9 @@ interface ContactDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(contact: Contact)
 
-    @Delete
-    suspend fun delete(contact: Contact)
+    @Update
+    suspend fun update(contact: Contact)
+
+    @Query("DELETE FROM contacts WHERE id = :contactId")
+    suspend fun deleteById(contactId: Int)
 }

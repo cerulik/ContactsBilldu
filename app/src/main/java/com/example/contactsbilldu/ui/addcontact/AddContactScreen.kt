@@ -39,10 +39,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.example.contactsbilldu.R
 import com.example.contactsbilldu.data.source.local.entity.Contact
 import org.koin.androidx.compose.getViewModel
 
@@ -136,7 +138,11 @@ fun AddContactScreen(
                             firstName = it
                         }
                     },
-                    label = { Text("First Name*") },
+                    label = {
+                        Text(
+                            stringResource(R.string.screen_add_contact_text_field_first_name_label)
+                        )
+                    },
                     shape = MaterialTheme.shapes.small,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Next
@@ -144,7 +150,7 @@ fun AddContactScreen(
                 )
                 if (isFirstNameErrorVisible) {
                     Text(
-                        text = "First name cannot be empty",
+                        text = stringResource(R.string.screen_add_contact_text_field_first_name_error),
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodySmall
                     )
@@ -158,7 +164,11 @@ fun AddContactScreen(
                             lastName = it
                         }
                     },
-                    label = { Text("Last Name") },
+                    label = {
+                        Text(
+                            stringResource(R.string.screen_add_contact_text_field_last_name_label)
+                        )
+                    },
                     shape = MaterialTheme.shapes.small,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Next
@@ -193,7 +203,11 @@ fun AddContactScreen(
                                     phoneNumber = it
                                 }
                             },
-                            label = { Text("Phone Number*") },
+                            label = {
+                                Text(
+                                    stringResource(R.string.screen_add_contact_text_field_phone_number_label)
+                                )
+                            },
                             keyboardOptions = KeyboardOptions.Default.copy(
                                 keyboardType = KeyboardType.Number,
                                 imeAction = ImeAction.Done
@@ -202,7 +216,9 @@ fun AddContactScreen(
                         )
                         if (isPhoneNumberErrorVisible) {
                             Text(
-                                text = "Phone number cannot be empty",
+                                text = stringResource(
+                                    R.string.screen_add_contact_text_field_phone_number_error
+                                ),
                                 color = MaterialTheme.colorScheme.error,
                                 style = MaterialTheme.typography.bodySmall
                             )
@@ -219,7 +235,7 @@ fun AddContactScreen(
                         onCheckedChange = { isFavorite = it }
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Mark as Favorite")
+                    Text(stringResource(R.string.screen_add_contact_check_box_label))
                 }
                 Spacer(
                     modifier = Modifier

@@ -22,6 +22,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.example.contactsbilldu.R
 import com.example.contactsbilldu.ui.home.contacts.ContactsScreen
 import com.example.contactsbilldu.ui.home.contacts.ContactsViewModel
 import com.example.contactsbilldu.ui.home.favorites.FavoritesScreen
@@ -60,7 +62,12 @@ fun HomeScreen(
                     containerColor = fabBackgroundColor,
                     contentColor = fabContentColor
                 ) {
-                    Icon(Icons.Default.Add, contentDescription = "Add Contact")
+                    Icon(
+                        Icons.Default.Add,
+                        contentDescription = stringResource(
+                            id = R.string.screen_home_button_add_contact
+                        )
+                    )
                 }
             }
         ) { innerPadding ->
@@ -107,10 +114,18 @@ fun BottomNavigationBar(
             icon = {
                 Icon(
                     Icons.Filled.Person,
-                    contentDescription = "Contacts"
+                    contentDescription = stringResource(
+                        id = R.string.screen_home_nav_bar_item_contacts
+                    )
                 )
             },
-            label = { Text("Contacts") },
+            label = {
+                Text(
+                    stringResource(
+                        id = R.string.screen_home_nav_bar_item_contacts
+                    )
+                )
+            },
             selected = bottomNavScreen == BottomNavScreen.Contacts,
             onClick = { onTabClick(BottomNavScreen.Contacts) },
             colors = NavigationBarItemDefaults.colors(
@@ -125,10 +140,18 @@ fun BottomNavigationBar(
             icon = {
                 Icon(
                     Icons.Filled.Favorite,
-                    contentDescription = "Favorites"
+                    contentDescription = stringResource(
+                        id = R.string.screen_home_nav_bar_item_favorites
+                    )
                 )
             },
-            label = { Text("Favorites") },
+            label = {
+                Text(
+                    stringResource(
+                        id = R.string.screen_home_nav_bar_item_favorites
+                    )
+                )
+            },
             selected = bottomNavScreen == BottomNavScreen.Favorites,
             onClick = { onTabClick(BottomNavScreen.Favorites) },
             colors = NavigationBarItemDefaults.colors(

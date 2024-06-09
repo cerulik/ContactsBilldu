@@ -6,15 +6,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.contactsbilldu.ui.addcontact.AddContactScreen
 import com.example.contactsbilldu.ui.contactdetail.ContactDetailScreen
 import com.example.contactsbilldu.ui.home.HomeScreen
-import com.example.contactsbilldu.ui.home.contacts.ContactsViewModel
-import org.koin.androidx.compose.getViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

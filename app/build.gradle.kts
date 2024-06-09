@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -66,6 +67,7 @@ dependencies {
     implementation("androidx.room:room-ktx:2.6.1")
     implementation("io.insert-koin:koin-android:3.1.2")
     implementation("io.insert-koin:koin-androidx-compose:3.1.2")
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.30.0")
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

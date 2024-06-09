@@ -28,13 +28,13 @@ fun ContactItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 4.dp, horizontal = 8.dp)
-            .clickable {
-                onClick(contact.id)
-            }
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .clickable {
+                    onClick(contact.id)
+                }
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -51,7 +51,7 @@ fun ContactItem(
                 Icon(
                     Icons.Default.Favorite,
                     contentDescription = "Favorite",
-                    tint = Color.Red,
+                    tint = MaterialTheme.colorScheme.secondary,
                     modifier = Modifier.padding(start = 8.dp)
                 )
             }

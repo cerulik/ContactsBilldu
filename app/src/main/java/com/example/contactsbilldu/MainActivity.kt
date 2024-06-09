@@ -6,12 +6,15 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.contactsbilldu.ui.addcontact.AddContactScreen
 import com.example.contactsbilldu.ui.contactdetail.ContactDetailScreen
 import com.example.contactsbilldu.ui.home.HomeScreen
+import com.example.contactsbilldu.ui.home.contacts.ContactsViewModel
+import org.koin.androidx.compose.getViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +30,9 @@ class MainActivity : ComponentActivity() {
 fun ContactsApp() {
     val navController = rememberNavController()
 
-    BillduTheme {
+    BillduTheme(
+        darkTheme = false
+    ) {
         NavHost(
             navController,
             startDestination = "home"
@@ -43,7 +48,14 @@ fun ContactsApp() {
                 )
             }
             composable("add_contact") {
-                AddContactScreen()
+                AddContactScreen(
+                    onBackClick = {
+                        navController.popBackStack()
+                    },
+                    onContactSaved = {
+                        navController.popBackStack()
+                    }
+                )
             }
             composable("contact_detail/{contactId}") { backStackEntry ->
                 val contactId =

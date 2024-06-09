@@ -22,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.example.contactsbilldu.ui.home.contacts.ContactsScreen
 import com.example.contactsbilldu.ui.home.contacts.ContactsViewModel
 import com.example.contactsbilldu.ui.home.favorites.FavoritesScreen
@@ -100,8 +101,8 @@ fun BottomNavigationBar(
     onTabClick: (BottomNavScreen) -> Unit
 ) {
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.onPrimary
+        containerColor = MaterialTheme.colorScheme.secondary,
+        contentColor = MaterialTheme.colorScheme.onSecondary
     ) {
         NavigationBarItem(
             icon = {
@@ -115,9 +116,10 @@ fun BottomNavigationBar(
             onClick = { onTabClick(BottomNavScreen.Contacts) },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-                unselectedIconColor = MaterialTheme.colorScheme.onSurface,
-                unselectedTextColor = MaterialTheme.colorScheme.onSurface
+                selectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                indicatorColor = MaterialTheme.colorScheme.primary
             )
         )
         NavigationBarItem(
@@ -132,9 +134,10 @@ fun BottomNavigationBar(
             onClick = { onTabClick(BottomNavScreen.Favorites) },
             colors = NavigationBarItemDefaults.colors(
                 selectedIconColor = MaterialTheme.colorScheme.onPrimary,
-                selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-                unselectedIconColor = MaterialTheme.colorScheme.onSurface,
-                unselectedTextColor = MaterialTheme.colorScheme.onSurface
+                selectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                indicatorColor = MaterialTheme.colorScheme.primary
             )
         )
     }

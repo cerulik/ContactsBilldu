@@ -1,9 +1,13 @@
+import android.R.color
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
+
 
 private val BillduBlue = Color(0xFF2B75BC)
 private val BillduGreen = Color(0xFF25A36E)
@@ -55,7 +59,15 @@ fun BillduTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
+    val systemUiController = rememberSystemUiController()
     val colors = if (darkTheme) DarkColors else LightColors
+
+    SideEffect {
+        systemUiController.setStatusBarColor(
+            color = Color.Transparent,
+            darkIcons = !darkTheme
+        )
+    }
 
     MaterialTheme(
         colorScheme = colors,

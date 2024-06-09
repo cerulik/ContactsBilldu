@@ -6,6 +6,7 @@ import com.example.contactsbilldu.data.repository.ContactRepository
 import com.example.contactsbilldu.data.source.local.ContactDatabase
 import com.example.contactsbilldu.data.source.local.ContactLocalSource
 import com.example.contactsbilldu.data.source.local.dao.ContactDao
+import com.example.contactsbilldu.ui.addcontact.AddContactViewModel
 import com.example.contactsbilldu.ui.home.contacts.ContactsViewModel
 import com.example.contactsbilldu.ui.home.favorites.FavoritesViewModel
 import org.koin.android.ext.koin.androidApplication
@@ -19,6 +20,7 @@ val appModule = module {
     single { ContactRepository(get()) }
     viewModel { ContactsViewModel(get()) }
     viewModel { FavoritesViewModel(get()) }
+    viewModel { AddContactViewModel(get()) }
 }
 
 fun provideDatabase(application: Application): ContactDatabase {

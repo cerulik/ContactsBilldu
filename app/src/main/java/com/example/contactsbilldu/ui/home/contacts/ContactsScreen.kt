@@ -2,7 +2,10 @@ package com.example.contactsbilldu.ui.home.contacts
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -14,6 +17,7 @@ import androidx.compose.material3.DismissDirection
 import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwipeToDismiss
 import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
@@ -31,7 +35,9 @@ fun ContactsScreen(
     onContactClick: (contactId: Int) -> Unit,
     onEvent: (ContactsViewModel.ContactsEvent) -> Unit
 ) {
-    LazyColumn {
+    LazyColumn(
+        contentPadding = PaddingValues(vertical = 8.dp)
+    ) {
         items(
             contactsUiState.contacts,
             key = { it.id }
@@ -48,8 +54,8 @@ fun ContactsScreen(
                 background = {
                     val direction = dismissState.dismissDirection ?: return@SwipeToDismiss
                     val color = when (direction) {
-                        DismissDirection.StartToEnd -> Color.Green
-                        DismissDirection.EndToStart -> Color.Red
+                        DismissDirection.StartToEnd -> MaterialTheme.colorScheme.secondary
+                        DismissDirection.EndToStart -> MaterialTheme.colorScheme.error
                     }
                     val icon = when (direction) {
                         DismissDirection.StartToEnd -> Icons.Default.Favorite

@@ -34,11 +34,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import com.example.contactsbilldu.R
 import com.example.contactsbilldu.data.source.local.entity.Contact
 import com.example.contactsbilldu.ui.home.ContactItem
 
@@ -63,11 +65,17 @@ fun ContactsScreen(
                 searchQuery = it
                 onEvent(ContactsViewModel.ContactsEvent.SearchQueryChanged(it.text))
             },
-            label = { Text("Search") },
-            leadingIcon = { Icon(Icons.Default.Search, contentDescription = "Search Icon") },
+            label = { Text(stringResource(id = R.string.screen_contacts_text_field_search_label)) },
+            leadingIcon = {
+                Icon(Icons.Default.Search,
+                    contentDescription = stringResource(
+                        id = R.string.screen_contacts_text_field_search_label
+                    )
+                )
+            },
             shape = MaterialTheme.shapes.small,
             keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Search
+                imeAction = ImeAction.Done
             )
         )
 

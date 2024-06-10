@@ -5,6 +5,8 @@
     <string name="screen_home_nav_bar_item_contacts">Kontakty</string>
     <string name="screen_home_nav_bar_item_favorites">Obľúbené</string>
 
+    <string name="screen_contacts_text_field_search_label">Hľadať kontakty</string>
+
     <string name="screen_add_contact_text_field_first_name_label">Meno*</string>
     <string name="screen_add_contact_text_field_first_name_error">Meno nesmie byť prázdne</string>
     <string name="screen_add_contact_text_field_last_name_label">Priezvisko</string>

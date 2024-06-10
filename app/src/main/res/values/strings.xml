@@ -5,6 +5,8 @@
     <string name="screen_home_nav_bar_item_contacts">Contacts</string>
     <string name="screen_home_nav_bar_item_favorites">Favorites</string>
 
+    <string name="screen_contacts_text_field_search_label">Search contacts</string>
+
     <string name="screen_add_contact_text_field_first_name_label">First Name*</string>
     <string name="screen_add_contact_text_field_first_name_error">First name cannot be empty</string>
     <string name="screen_add_contact_text_field_last_name_label">Last Name</string>

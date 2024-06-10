@@ -8,6 +8,7 @@ data class Contact(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val firstName: String,
     val lastName: String,
-    val phone: String,
+    val countryCode: String,
+    val phoneNumber: String,
     val isFavorite: Boolean = false
 )

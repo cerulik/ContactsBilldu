@@ -68,6 +68,9 @@ dependencies {
     implementation("io.insert-koin:koin-android:3.1.2")
     implementation("io.insert-koin:koin-androidx-compose:3.1.2")
     implementation ("com.google.accompanist:accompanist-systemuicontroller:0.30.0")
+    implementation("androidx.paging:paging-compose:3.3.0")
+    implementation("androidx.paging:paging-runtime:3.3.0")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -23,6 +23,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.example.contactsbilldu.R
 import com.example.contactsbilldu.ui.home.contacts.ContactsScreen
 import com.example.contactsbilldu.ui.home.contacts.ContactsViewModel
@@ -75,10 +76,10 @@ fun HomeScreen(
                 when (bottomNavScreen) {
                     BottomNavScreen.Contacts -> {
                         val contactsViewModel = getViewModel<ContactsViewModel>()
-                        val contactsUiState = contactsViewModel.uiState.collectAsState()
+                        val contacts = contactsViewModel.contacts.collectAsLazyPagingItems()
 
                         ContactsScreen(
-                            contactsUiState = contactsUiState.value,
+                            contacts = contacts,
                             onContactClick = onContactSelected,
                             onEvent = {
                                 contactsViewModel.onEvent(it)

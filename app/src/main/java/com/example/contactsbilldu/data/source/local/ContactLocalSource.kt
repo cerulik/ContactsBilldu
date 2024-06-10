@@ -7,8 +7,12 @@ import kotlinx.coroutines.flow.Flow
 class ContactLocalSource(
     private val contactDao: ContactDao
 ) {
-    fun getContacts(): Flow<List<Contact>> {
-        return contactDao.getContacts()
+    fun getContacts(offset: Int, limit: Int): List<Contact> {
+        return contactDao.getContacts(offset, limit)
+    }
+
+    fun searchContacts(query: String, offset: Int, limit: Int): List<Contact> {
+        return contactDao.searchContacts(query, offset, limit)
     }
 
     fun getFavoriteContacts(): Flow<List<Contact>> {

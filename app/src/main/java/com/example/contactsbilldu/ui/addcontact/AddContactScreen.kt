@@ -257,7 +257,8 @@ fun AddContactScreen(
                             val contact = Contact(
                                 firstName = firstName.text,
                                 lastName = lastName.text,
-                                phone = phoneNumber.text,
+                                countryCode = selectedCountry.code,
+                                phoneNumber = selectedCountry.code + phoneNumber.text,
                                 isFavorite = isFavorite
                             )
 

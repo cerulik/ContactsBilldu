@@ -8,22 +8,46 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class AddContactViewModel(
+    private val oldContactId: Int,
     private val contactRepository: ContactRepository
 ) : BaseViewModel<
         AddContactViewModel.AddContactUiState,
         AddContactViewModel.AddContactEvent,
         BaseViewModel.Effect>() {
 
-    override val initialUiState = AddContactUiState()
+    override val initialUiState = AddContactUiState(
+        isContactLoading = oldContactId != -1
+    )
+
+    init {
+        if (oldContactId != -1) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val oldContact = contactRepository.loadContactById(oldContactId)
+
+                updateUiState(
+                    uiState.value.copy(
+                        oldContact = oldContact,
+                        isContactLoading = false
+                    )
+                )
+            }
+        }
+    }
 
     override fun handleEvent(event: Event) {
         when (event) {
             is AddContactEvent.SaveContactClicked -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     updateUiState(
-                        uiState.value.copy(loading = true)
+                        uiState.value.copy(isContactSaving = true)
                     )
-                    contactRepository.addContact(event.contact)
+
+                    if (uiState.value.oldContact != null) {
+                        contactRepository.updateContact(event.contact)
+                    } else {
+                        contactRepository.addContact(event.contact)
+                    }
+
                     sendEffect(AddContactEffect.ContactSaved)
                 }
             }
@@ -31,7 +55,9 @@ class AddContactViewModel(
     }
 
     data class AddContactUiState(
-        val loading: Boolean = false
+        val oldContact: Contact? = null,
+        val isContactLoading: Boolean = false,
+        val isContactSaving: Boolean = false
     ): UiState
 
     sealed class AddContactEvent: Event {

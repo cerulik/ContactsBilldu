@@ -19,6 +19,10 @@ class ContactLocalSource(
         return contactDao.getFavoriteContacts()
     }
 
+    fun getContactById(contactId: Int): Contact? {
+        return contactDao.getContactById(contactId)
+    }
+
     suspend fun addContact(contact: Contact) {
         contactDao.insert(contact)
     }

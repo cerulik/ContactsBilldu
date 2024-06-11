@@ -10,7 +10,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.contactsbilldu.ui.addcontact.AddContactScreen
-import com.example.contactsbilldu.ui.contactdetail.ContactDetailScreen
 import com.example.contactsbilldu.ui.home.HomeScreen
 
 class MainActivity : ComponentActivity() {
@@ -57,7 +56,16 @@ fun ContactsApp() {
             composable("contact_detail/{contactId}") { backStackEntry ->
                 val contactId =
                     backStackEntry.arguments?.getString("contactId")?.toIntOrNull() ?: 0
-                ContactDetailScreen(contactId)
+
+                AddContactScreen(
+                    oldContactId = contactId,
+                    onBackClick = {
+                        navController.popBackStack()
+                    },
+                    onContactSaved = {
+                        navController.popBackStack()
+                    }
+                )
             }
         }
     }

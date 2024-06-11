@@ -42,7 +42,7 @@ class ContactsViewModel(
                 }
 
                 is ContactsEvent.ContactFavoriteClicked -> {
-                    contactRepository.update(
+                    contactRepository.updateContact(
                         event.contact.copy(
                             isFavorite = !event.contact.isFavorite
                         )

@@ -20,7 +20,7 @@ val appModule = module {
     single { ContactRepository(get()) }
     viewModel { ContactsViewModel(get()) }
     viewModel { FavoritesViewModel(get()) }
-    viewModel { AddContactViewModel(get()) }
+    viewModel { parameters -> AddContactViewModel(parameters.get(), get()) }
 }
 
 fun provideDatabase(application: Application): ContactDatabase {

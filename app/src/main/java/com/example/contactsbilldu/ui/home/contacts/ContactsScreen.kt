@@ -37,6 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
@@ -79,106 +80,120 @@ fun ContactsScreen(
             )
         )
 
-        LazyColumn(
-            contentPadding = PaddingValues(vertical = 8.dp)
-        ) {
-            items(contacts.itemCount) { index ->
-                val dismissState = rememberDismissState(
-                    confirmValueChange = {
-                        it == DismissValue.DismissedToStart || it == DismissValue.DismissedToEnd
-                    }, positionalThreshold = { 150.dp.toPx() }
+        if (contacts.itemCount == 0 && contacts.loadState.refresh !is LoadState.Loading) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                Text(
+                    modifier = Modifier.padding(16.dp).align(Alignment.Center),
+                    text = stringResource(R.string.screen_contacts_label_no_contacts),
+                    style = MaterialTheme.typography.headlineSmall,
+                    textAlign = TextAlign.Center
                 )
+            }
+        } else {
+            LazyColumn(
+                contentPadding = PaddingValues(vertical = 8.dp)
+            ) {
+                items(contacts.itemCount) { index ->
+                    val dismissState = rememberDismissState(
+                        confirmValueChange = {
+                            it == DismissValue.DismissedToStart || it == DismissValue.DismissedToEnd
+                        }, positionalThreshold = { 150.dp.toPx() }
+                    )
 
-                SwipeToDismiss(
-                    state = dismissState,
-                    directions = setOf(DismissDirection.EndToStart, DismissDirection.StartToEnd),
-                    background = {
-                        val direction = dismissState.dismissDirection ?: return@SwipeToDismiss
-                        val color = when (direction) {
-                            DismissDirection.StartToEnd -> MaterialTheme.colorScheme.secondary
-                            DismissDirection.EndToStart -> MaterialTheme.colorScheme.error
-                        }
-                        val icon = when (direction) {
-                            DismissDirection.StartToEnd -> Icons.Default.Favorite
-                            DismissDirection.EndToStart -> Icons.Default.Delete
-                        }
+                    SwipeToDismiss(
+                        state = dismissState,
+                        directions = setOf(
+                            DismissDirection.EndToStart,
+                            DismissDirection.StartToEnd
+                        ),
+                        background = {
+                            val direction = dismissState.dismissDirection ?: return@SwipeToDismiss
+                            val color = when (direction) {
+                                DismissDirection.StartToEnd -> MaterialTheme.colorScheme.secondary
+                                DismissDirection.EndToStart -> MaterialTheme.colorScheme.error
+                            }
+                            val icon = when (direction) {
+                                DismissDirection.StartToEnd -> Icons.Default.Favorite
+                                DismissDirection.EndToStart -> Icons.Default.Delete
+                            }
 
-                        Card(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .padding(vertical = 4.dp, horizontal = 8.dp)
-                        ) {
-                            Box(
+                            Card(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .background(color)
-                                    .padding(horizontal = 16.dp),
-                                contentAlignment = when (direction) {
-                                    DismissDirection.StartToEnd -> Alignment.CenterStart
-                                    DismissDirection.EndToStart -> Alignment.CenterEnd
-                                }
+                                    .padding(vertical = 4.dp, horizontal = 8.dp)
                             ) {
-                                Icon(icon, contentDescription = null, tint = Color.White)
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .background(color)
+                                        .padding(horizontal = 16.dp),
+                                    contentAlignment = when (direction) {
+                                        DismissDirection.StartToEnd -> Alignment.CenterStart
+                                        DismissDirection.EndToStart -> Alignment.CenterEnd
+                                    }
+                                ) {
+                                    Icon(icon, contentDescription = null, tint = Color.White)
+                                }
                             }
+                        },
+                        dismissContent = {
+                            ContactItem(
+                                contact = contacts[index]!!,
+                                onClick = onContactClick
+                            )
                         }
-                    },
-                    dismissContent = {
-                        ContactItem(
-                            contact = contacts[index]!!,
-                            onClick = onContactClick
-                        )
-                    }
-                )
+                    )
 
-                if (dismissState.isDismissed(DismissDirection.EndToStart)) {
-                    LaunchedEffect(dismissState) {
-                        onEvent(ContactsViewModel.ContactsEvent.ContactDeleteClicked(contacts[index]!!.id))
-                        dismissState.reset()
-                    }
-                } else if (dismissState.isDismissed(DismissDirection.StartToEnd)) {
-                    LaunchedEffect(dismissState) {
-                        onEvent(ContactsViewModel.ContactsEvent.ContactFavoriteClicked(contacts[index]!!))
-                        dismissState.reset()
+                    if (dismissState.isDismissed(DismissDirection.EndToStart)) {
+                        LaunchedEffect(dismissState) {
+                            onEvent(ContactsViewModel.ContactsEvent.ContactDeleteClicked(contacts[index]!!.id))
+                            dismissState.reset()
+                        }
+                    } else if (dismissState.isDismissed(DismissDirection.StartToEnd)) {
+                        LaunchedEffect(dismissState) {
+                            onEvent(ContactsViewModel.ContactsEvent.ContactFavoriteClicked(contacts[index]!!))
+                            dismissState.reset()
+                        }
                     }
                 }
-            }
 
-            contacts.apply {
-                when {
-                    loadState.refresh is LoadState.Loading -> {
-                        item {
-                            Box(
-                                modifier = Modifier.fillParentMaxSize(),
-                                contentAlignment = Alignment.TopCenter
-                            ) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(32.dp)
-                                )
+                contacts.apply {
+                    when {
+                        loadState.refresh is LoadState.Loading -> {
+                            item {
+                                Box(
+                                    modifier = Modifier.fillParentMaxSize(),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(32.dp)
+                                    )
+                                }
                             }
                         }
-                    }
 
-                    loadState.append is LoadState.Loading -> {
-                        item {
-                            Box(
-                                modifier = Modifier.fillParentMaxSize(),
-                                contentAlignment = Alignment.TopCenter
-                            ) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(32.dp)
-                                )
+                        loadState.append is LoadState.Loading -> {
+                            item {
+                                Box(
+                                    modifier = Modifier.fillParentMaxSize(),
+                                    contentAlignment = Alignment.TopCenter
+                                ) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(32.dp)
+                                    )
+                                }
                             }
                         }
-                    }
 
-                    loadState.append is LoadState.Error -> {
-                        val e = contacts.loadState.append as LoadState.Error
-                        item {
-                            Text(
-                                text = "Error: ${e.error.localizedMessage}",
-                                modifier = Modifier.padding(16.dp),
-                                color = MaterialTheme.colorScheme.error
-                            )
+                        loadState.append is LoadState.Error -> {
+                            val e = contacts.loadState.append as LoadState.Error
+                            item {
+                                Text(
+                                    text = "Error: ${e.error.localizedMessage}",
+                                    modifier = Modifier.padding(16.dp),
+                                    color = MaterialTheme.colorScheme.error
+                                )
+                            }
                         }
                     }
                 }

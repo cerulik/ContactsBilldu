@@ -22,6 +22,9 @@ interface ContactDao {
     @Query("SELECT * FROM contacts WHERE isFavorite = 1")
     fun getFavoriteContacts(): Flow<List<Contact>>
 
+    @Query("SELECT * FROM contacts WHERE id = :contactId")
+    fun getContactById(contactId: Int): Contact?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(contact: Contact)
 

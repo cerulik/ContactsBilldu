@@ -25,11 +25,15 @@ class ContactRepository(
         return localSource.getFavoriteContacts().flowOn(Dispatchers.IO)
     }
 
+    suspend fun loadContactById(contactId: Int): Contact? = withContext(Dispatchers.IO) {
+        return@withContext localSource.getContactById(contactId)
+    }
+
     suspend fun addContact(contact: Contact) = withContext(Dispatchers.IO) {
         localSource.addContact(contact)
     }
 
-    suspend fun update(contact: Contact) = withContext(Dispatchers.IO) {
+    suspend fun updateContact(contact: Contact) = withContext(Dispatchers.IO) {
         localSource.updateContact(contact)
     }
 

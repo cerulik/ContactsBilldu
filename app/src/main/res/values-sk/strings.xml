@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Kontakty Billdu</string>
+
+    <string name="screen_home_button_add_contact">Pridať kontakt</string>
+    <string name="screen_home_nav_bar_item_contacts">Kontakty</string>
+    <string name="screen_home_nav_bar_item_favorites">Obľúbené</string>
+
+    <string name="screen_contacts_text_field_search_label">Hľadať kontakty</string>
+    <string name="screen_contacts_label_no_contacts">Nemáte žiadne uložené kontakty</string>
+
+    <string name="screen_favorites_label_no_favorites">Nemáte žiadne obľúbené kontakty</string>
+
+    <string name="screen_add_contact_title_add">Pridať nový kontakt</string>
+    <string name="screen_add_contact_title_edit">Upraviť kontakt</string>
+    <string name="screen_add_contact_back_description">Späť</string>
+    <string name="screen_add_contact_text_field_first_name_label">Meno*</string>
+    <string name="screen_add_contact_text_field_first_name_error">Meno nesmie byť prázdne</string>
+    <string name="screen_add_contact_text_field_last_name_label">Priezvisko</string>
+    <string name="screen_add_contact_text_field_phone_number_label">Telefónne číslo*</string>
+    <string name="screen_add_contact_text_field_phone_number_error">Telefónne číslo nesmie byť prázdne</string>
+    <string name="screen_add_contact_check_box_label">Označiť ako Obľúbené</string>
+</resources>
